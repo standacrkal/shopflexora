@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/contact")({
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const [submitting, setSubmitting] = useState(false);
+  const [subject, setSubject] = useState("Order question");
   return (
     <section className="bg-background py-20">
       <div className="mx-auto max-w-3xl px-6">
@@ -35,6 +37,7 @@ function ContactPage() {
               setSubmitting(false);
               toast.success("Thanks! We'll be in touch shortly.");
               (e.target as HTMLFormElement).reset();
+              setSubject("Order question");
             }, 600);
           }}
           className="mt-12 space-y-4"
@@ -44,7 +47,18 @@ function ContactPage() {
             <Input className="h-14 rounded-xl" placeholder="Email *" type="email" required name="email" />
           </div>
           <Input className="h-14 rounded-xl" placeholder="Phone number" name="phone" />
-          <Input className="h-14 rounded-xl" placeholder="Subject" name="subject" defaultValue="Order question" />
+          <Select value={subject} onValueChange={setSubject}>
+            <SelectTrigger className="h-14 rounded-xl text-base data-[placeholder]:text-muted-foreground">
+              <SelectValue placeholder="Subject" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Order question">Order question</SelectItem>
+              <SelectItem value="Refund">Refund</SelectItem>
+              <SelectItem value="Shipping">Shipping</SelectItem>
+              <SelectItem value="Other">Other</SelectItem>
+            </SelectContent>
+          </Select>
+          <input type="hidden" name="subject" value={subject} />
           <Textarea className="min-h-[160px] rounded-xl" placeholder="Comment" name="comment" />
           <Button disabled={submitting} className="h-14 w-full rounded-full text-base font-bold">
             {submitting ? "Sending..." : "Send"}
