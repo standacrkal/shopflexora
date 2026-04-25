@@ -195,6 +195,12 @@
       transparent 6px,
       transparent 12px
     );
+    background-size: 16.97px 16.97px; /* 12px * sqrt(2) so the pattern repeats cleanly when animated */
+    animation: stripe-move 1s linear infinite;
+  }
+  @keyframes stripe-move {
+    from { background-position: 0 0; }
+    to { background-position: 16.97px 0; }
   }
 }
 
