@@ -1,4 +1,5 @@
-import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { Outlet, Link, createRootRouteWithContext, HeadContent, Scripts } from "@tanstack/react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import appCss from "../styles.css?url";
 import { Header } from "@/components/Header";
@@ -30,7 +31,7 @@ function NotFoundComponent() {
   );
 }
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -71,15 +72,18 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
+  const { queryClient } = Route.useRouteContext();
   useCartSync();
   return (
-    <div className="flex min-h-screen flex-col">
+    <QueryClientProvider client={queryClient}>
+      <div className="flex min-h-screen flex-col">
       <Marquee />
       <Header />
       <main className="flex-1"><Outlet /></main>
       <Footer />
       <CartDrawer />
       <Toaster position="top-center" richColors />
-    </div>
+      </div>
+    </QueryClientProvider>
   );
 }
