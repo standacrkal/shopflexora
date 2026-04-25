@@ -1,6 +1,13 @@
-import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { Outlet, Link, createRootRouteWithContext, HeadContent, Scripts } from "@tanstack/react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import appCss from "../styles.css?url";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { Marquee } from "@/components/Marquee";
+import { CartDrawer } from "@/components/CartDrawer";
+import { useCartSync } from "@/hooks/useCartSync";
+import { Toaster } from "sonner";
 
 function NotFoundComponent() {
   return (
@@ -24,7 +31,7 @@ function NotFoundComponent() {
   );
 }
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -65,5 +72,18 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
-  return <Outlet />;
+  const { queryClient } = Route.useRouteContext();
+  useCartSync();
+  return (
+    <QueryClientProvider client={queryClient}>
+      <div className="flex min-h-screen flex-col">
+      <Marquee />
+      <Header />
+      <main className="flex-1"><Outlet /></main>
+      <Footer />
+      <CartDrawer />
+      <Toaster position="top-center" richColors />
+      </div>
+    </QueryClientProvider>
+  );
 }
