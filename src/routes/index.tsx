@@ -60,8 +60,8 @@ function HomePage() {
           </div>
           <div className="relative">
             <img src={heroImg} alt="Athlete running with FlexLock knee sleeve" width={1280} height={1280} className="w-full rounded-2xl object-cover shadow-2xl" />
-            <div className="absolute -bottom-4 left-8 rotate-[-8deg] rounded-full bg-accent px-5 py-2 text-sm font-black tracking-wider text-accent-foreground shadow-lg">
-              SAVE 50%
+            <div className="absolute -left-3 -top-3 flex h-24 w-24 rotate-[-12deg] items-center justify-center rounded-full bg-accent text-center text-sm font-black leading-tight tracking-wider text-accent-foreground shadow-xl ring-4 ring-background md:-left-5 md:-top-5 md:h-28 md:w-28">
+              SAVE<br />50%
             </div>
           </div>
         </div>
