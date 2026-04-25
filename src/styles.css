@@ -158,9 +158,10 @@
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -0.05em;
-    height: 0.18em;
+    bottom: -0.18em;
+    height: 0.12em;
     background: var(--accent);
+    border-radius: 2px;
   }
 
   .marquee {
