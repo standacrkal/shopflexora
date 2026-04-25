@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Star, Truck, ShieldCheck, Headphones } from "lucide-react";
+import { Star, Truck, ShieldCheck, Headphones, SlidersHorizontal, Target, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroImg from "@/assets/hero-runner.png";
 import kneeInHand from "@/assets/knee-in-hand.png";
@@ -98,16 +98,16 @@ function HomePage() {
           </div>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {[
-              ["Adjustable Compression", "Precision dial lets you fine-tune support in seconds. Tighten or loosen without ever removing it."],
-              ["Targeted Patella Stability", "Built-in guide aligns your kneecap precisely. Reduces strain, prevents unwanted movement."],
-              ["All-Day Comfort", "Breathable knit fabric keeps you cool and dry. Wear it for hours without discomfort or irritation."],
-            ].map(([t, d]) => (
-              <div key={t} className="rounded-2xl bg-muted p-7">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                  <ShieldCheck className="h-5 w-5" />
+              { t: "Adjustable Compression", d: "Precision dial lets you fine-tune support in seconds. Tighten or loosen without ever removing it.", Icon: SlidersHorizontal },
+              { t: "Targeted Patella Stability", d: "Built-in guide aligns your kneecap precisely. Reduces strain, prevents unwanted movement.", Icon: Target },
+              { t: "All-Day Comfort", d: "Breathable knit fabric keeps you cool and dry. Wear it for hours without discomfort or irritation.", Icon: Clock },
+            ].map(({ t, d, Icon }) => (
+              <div key={t} className="rounded-2xl bg-muted p-7 text-left">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                  <Icon className="h-5 w-5" />
                 </div>
-                <h3 className="mt-6 text-lg font-bold">{t}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{d}</p>
+                <h3 className="mt-6 text-lg font-bold text-foreground">{t}</h3>
+                <p className="mt-2 text-sm text-foreground/70">{d}</p>
               </div>
             ))}
           </div>
@@ -127,10 +127,10 @@ function HomePage() {
               ["02", "Dial Your Support", "Turn the precision dial to adjust compression exactly to your preference. Done in seconds."],
               ["03", "Move Freely", "Train, walk, work — the FlexLock moves with your body. Stable, comfortable, in control all day."],
             ].map(([n, t, d]) => (
-              <div key={n} className="rounded-2xl border border-primary-foreground/15 p-7">
-                <div className="font-display text-4xl text-primary-foreground/30">{n}</div>
-                <h3 className="mt-6 text-lg font-bold">{t}</h3>
-                <p className="mt-2 text-sm text-primary-foreground/60">{d}</p>
+              <div key={n} className="rounded-2xl border border-primary-foreground/20 bg-primary-foreground/5 p-7">
+                <div className="font-display text-4xl text-primary-foreground/40">{n}</div>
+                <h3 className="mt-6 text-lg font-bold text-primary-foreground">{t}</h3>
+                <p className="mt-2 text-sm text-primary-foreground/80">{d}</p>
               </div>
             ))}
           </div>
@@ -154,8 +154,8 @@ function HomePage() {
                   <div className="mx-auto h-20 w-20 overflow-hidden rounded-full bg-background">
                     <img src={t.img} alt="" className="h-full w-full object-cover" />
                   </div>
-                  <div className="mt-3 flex justify-center text-accent">
-                    {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
+                  <div className="mt-3 flex justify-center text-yellow-400">
+                    {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-yellow-400" />)}
                   </div>
                   <p className="mt-3 text-center text-sm text-muted-foreground">"{t.quote}"</p>
                   <p className="mt-3 text-center text-xs font-bold">— {t.name}</p>
