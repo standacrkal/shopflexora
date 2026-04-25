@@ -1,6 +1,12 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { Marquee } from "@/components/Marquee";
+import { CartDrawer } from "@/components/CartDrawer";
+import { useCartSync } from "@/hooks/useCartSync";
+import { Toaster } from "sonner";
 
 function NotFoundComponent() {
   return (
@@ -65,5 +71,15 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
-  return <Outlet />;
+  useCartSync();
+  return (
+    <div className="flex min-h-screen flex-col">
+      <Marquee />
+      <Header />
+      <main className="flex-1"><Outlet /></main>
+      <Footer />
+      <CartDrawer />
+      <Toaster position="top-center" richColors />
+    </div>
+  );
 }
