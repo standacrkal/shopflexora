@@ -114,9 +114,9 @@ function ProductPage() {
   return (
     <div>
       <section className="bg-background py-10">
-        <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-2">
+        <div id="product-top" className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-2 lg:items-start">
           {/* Gallery */}
-          <div>
+          <div className="lg:sticky lg:top-24 lg:self-start">
             <div className="aspect-square overflow-hidden rounded-2xl bg-muted">
               <img src={galleryImages[activeImg].url} alt={galleryImages[activeImg].altText ?? product.title} className="h-full w-full object-contain" />
             </div>
@@ -131,11 +131,10 @@ function ProductPage() {
 
           {/* Info */}
           <div>
-            <span className="inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent-foreground">50% OFF Today Only</span>
-            <h1 className="font-display mt-3 text-4xl md:text-5xl">FLEXLOCK SLEEVE</h1>
+            <h1 className="font-display text-4xl md:text-5xl">FLEXLOCK SLEEVE</h1>
             <div className="mt-2 flex items-center gap-2 text-sm">
               <div className="flex">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />)}</div>
-              <span className="font-bold">4.9</span>
+              <span className="font-bold">4.8</span>
               <span className="text-muted-foreground">(3,500+ verified reviews)</span>
             </div>
             <div className="mt-4 flex items-baseline gap-3">
@@ -170,12 +169,19 @@ function ProductPage() {
               </div>
             </div>
 
-            {/* Bundles */}
-            <div className="mt-6 rounded-2xl border-2 border-foreground p-4">
-              <div className="mb-3 flex items-center gap-3">
-                <div className="h-px flex-1 bg-foreground" />
-                <span className="text-[11px] font-bold uppercase tracking-wider text-accent">50% OFF Today Only</span>
-                <div className="h-px flex-1 bg-foreground" />
+            {/* Countdown + Bundles */}
+            <div className="mt-6">
+              <div className="mb-3 flex flex-col items-center gap-2 rounded-xl bg-foreground px-4 py-3 text-background">
+                <div className="flex items-center gap-2 font-mono text-2xl font-bold tabular-nums tracking-widest">
+                  <span className="rounded bg-background/10 px-2 py-1">{mm}</span>
+                  <span>:</span>
+                  <span className="rounded bg-background/10 px-2 py-1">{ss}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="h-px w-8 bg-background/40" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-accent">50% OFF Today Only</span>
+                  <div className="h-px w-8 bg-background/40" />
+                </div>
               </div>
               <div className="space-y-2">
                 {([1, 2, 3] as const).map((b) => {
@@ -214,7 +220,7 @@ function ProductPage() {
               {cartLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : `Add to Cart — $${bundlePrices[bundle].total.toFixed(2)}`}
             </Button>
 
-            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-muted-foreground">
               <span className="inline-flex items-center gap-1"><Truck className="h-3 w-3" /> Free Shipping</span>
               <span className="inline-flex items-center gap-1"><ShieldCheck className="h-3 w-3" /> 30-Day Guarantee</span>
               <span className="inline-flex items-center gap-1"><Headphones className="h-3 w-3" /> 24/7 Support</span>
@@ -227,7 +233,10 @@ function ProductPage() {
                 "Precision support for sport to your home",
                 "Lightweight and flexible under clothing",
               ].map((b) => (
-                <li key={b} className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary" />{b}</li>
+                <li key={b} className="flex items-start gap-2">
+                  <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-accent" strokeWidth={3} />
+                  <span>{b}</span>
+                </li>
               ))}
             </ul>
           </div>
@@ -242,10 +251,10 @@ function ProductPage() {
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.25em] text-muted-foreground">The difference</p>
-            <h2 className="font-display mt-3 text-5xl leading-[1.15]">
-              FROM <span className="underline-accent">PAIN</span>
+            <h2 className="font-display mt-3 text-5xl leading-[1.05]">
+              <span className="inline-block pb-2">FROM <span className="underline-accent">PAIN</span></span>
               <br />
-              <span className="mt-2 inline-block">TO FREE.</span>
+              <span className="inline-block">TO FREE.</span>
             </h2>
             <div className="mt-6 space-y-4">
               <div className="rounded-xl border border-border p-5">
@@ -265,6 +274,13 @@ function ProductPage() {
       {/* Stats panel */}
       <section className="bg-primary py-16 text-primary-foreground">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 md:grid-cols-2 md:items-center">
+          <div className="grid grid-cols-2 gap-4">
+            {[0, 1].map((i) => (
+              <div key={i} className="flex aspect-[9/16] items-center justify-center rounded-2xl bg-primary-foreground/10 text-primary-foreground/40">
+                <span className="text-2xl font-bold tracking-widest">VIDEO</span>
+              </div>
+            ))}
+          </div>
           <div className="space-y-8 text-center md:text-left">
             {[
               ["94%", "felt immediate knee stability when they first put it on"],
@@ -274,13 +290,6 @@ function ProductPage() {
               <div key={n} className="mx-auto md:mx-0 md:max-w-md">
                 <div className="font-display text-5xl">{n}</div>
                 <p className="mt-2 text-sm text-primary-foreground/70">{d}</p>
-              </div>
-            ))}
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            {[0, 1].map((i) => (
-              <div key={i} className="flex aspect-[9/16] items-center justify-center rounded-2xl bg-primary-foreground/10 text-primary-foreground/40">
-                <span className="text-2xl font-bold tracking-widest">VIDEO</span>
               </div>
             ))}
           </div>
@@ -294,9 +303,9 @@ function ProductPage() {
           <h2 className="font-display mt-3 text-5xl">CUSTOMERS <span className="underline-accent">LOVE IT</span></h2>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {[
-              { img: kneeInCar, quote: "After years of knee pain, I can finally hike again without stopping every 5 minutes. Total game changer.", rating: 5.0 },
-              { img: kneeInHand, quote: "I'm a nurse on my feet 12 hours a day. This is the only brace that lasts the full shift without slipping.", rating: 5.0 },
-              { img: kneeGym, quote: "Started cycling again after 8 months off. The dial compression is unlike anything I've tried before.", rating: 4.9 },
+              { img: productOnLeg, quote: "After years of knee pain, I can finally hike again without stopping every 5 minutes. Total game changer.", rating: 5.0 },
+              { img: productBike, quote: "I'm a nurse on my feet 12 hours a day. This is the only brace that lasts the full shift without slipping.", rating: 5.0 },
+              { img: productPair, quote: "Started cycling again after 8 months off. The dial compression is unlike anything I've tried before.", rating: 4.9 },
             ].map((t) => (
               <div key={t.quote} className="overflow-hidden rounded-2xl bg-muted text-left">
                 <div className="p-5">
@@ -321,7 +330,15 @@ function ProductPage() {
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-primary-foreground/50">Risk-free purchase</p>
           <h2 className="font-display mt-3 text-4xl md:text-5xl">30-DAY MONEY-BACK<br />GUARANTEE</h2>
           <p className="mt-4 text-sm text-primary-foreground/60">Try the FlexLock Sleeve for 30 days. Not satisfied? Full refund, no questions asked.</p>
-          <Button onClick={handleAdd} variant="secondary" className="mt-6 h-12 rounded-full px-8 font-bold text-primary">Try it Risk-Free</Button>
+          <Button
+            onClick={() => {
+              document.getElementById("product-top")?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+            variant="secondary"
+            className="mt-6 h-12 rounded-full px-8 font-bold text-primary"
+          >
+            Try it Risk-Free
+          </Button>
         </div>
       </section>
 
