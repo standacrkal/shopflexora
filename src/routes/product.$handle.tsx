@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
-import { Star, Truck, ShieldCheck, Headphones, Loader2 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Star, Truck, ShieldCheck, Headphones, Loader2, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -9,10 +9,12 @@ import { storefrontApiRequest, PRODUCT_BY_HANDLE_QUERY } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import beforeAfterImg from "@/assets/before-after.png";
 import sizeChartImg from "@/assets/size-chart.png";
-import kneeExploded from "@/assets/knee-exploded.jpg";
-import kneeInHand from "@/assets/knee-in-hand.png";
-import kneeInCar from "@/assets/knee-in-car.png";
-import kneeGym from "@/assets/knee-gym.jpg";
+import productBlackExploded from "@/assets/product-black-exploded.jpg";
+import productWhiteExploded from "@/assets/product-white-exploded.jpg";
+import productOnLeg from "@/assets/product-on-leg.png";
+import productFeatures from "@/assets/product-features.png";
+import productBike from "@/assets/product-bike.jpg";
+import productPair from "@/assets/product-pair.jpg";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/product/$handle")({
@@ -44,13 +46,27 @@ function ProductPage() {
   const [activeImg, setActiveImg] = useState(0);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
 
+  // Countdown timer (resets to 15 minutes on mount)
+  const [secondsLeft, setSecondsLeft] = useState(15 * 60);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setSecondsLeft((s) => (s > 0 ? s - 1 : 0));
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
+  const mm = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
+  const ss = String(secondsLeft % 60).padStart(2, "0");
+
   const sizes = product?.options?.find((o: { name: string }) => o.name === "Size")?.values || [];
   const colors = product?.options?.find((o: { name: string }) => o.name === "Color")?.values || [];
-  // Use the user-supplied product images for the gallery (matches design mockup)
+  // Gallery — exact order as supplied
   const galleryImages = [
-    { url: kneeExploded, altText: "FlexLock Sleeve — exploded view" },
-    { url: kneeInHand, altText: "FlexLock Sleeve in hand" },
-    { url: kneeInCar, altText: "FlexLock Sleeve detail" },
+    { url: productBlackExploded, altText: "FlexLock Sleeve — black exploded view" },
+    { url: productWhiteExploded, altText: "FlexLock Sleeve — white exploded view" },
+    { url: productOnLeg, altText: "FlexLock Sleeve worn on leg" },
+    { url: productFeatures, altText: "FlexLock Sleeve — features overview" },
+    { url: productBike, altText: "FlexLock Sleeve in use on bike" },
+    { url: productPair, altText: "FlexLock Sleeve — pair, black and white" },
   ];
 
   const variant = useMemo(() => {
