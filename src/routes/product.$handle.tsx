@@ -10,8 +10,6 @@ import { useCartStore } from "@/stores/cartStore";
 import beforeAfterImg from "@/assets/before-after.png";
 import sizeChartImg from "@/assets/size-chart.png";
 import kneeExploded from "@/assets/knee-exploded.jpg";
-import kneePair from "@/assets/knee-pair.jpg";
-import kneeFeaturesBlack from "@/assets/knee-features-black.png";
 import kneeInHand from "@/assets/knee-in-hand.png";
 import kneeInCar from "@/assets/knee-in-car.png";
 import kneeGym from "@/assets/knee-gym.jpg";
@@ -51,8 +49,6 @@ function ProductPage() {
   // Use the user-supplied product images for the gallery (matches design mockup)
   const galleryImages = [
     { url: kneeExploded, altText: "FlexLock Sleeve — exploded view" },
-    { url: kneePair, altText: "FlexLock Sleeve — black and white" },
-    { url: kneeFeaturesBlack, altText: "FlexLock Sleeve — features" },
     { url: kneeInHand, altText: "FlexLock Sleeve in hand" },
     { url: kneeInCar, altText: "FlexLock Sleeve detail" },
   ];
@@ -70,10 +66,11 @@ function ProductPage() {
   const price = variant ? parseFloat(variant.price.amount) : 39.95;
   const compareAt = variant?.compareAtPrice ? parseFloat(variant.compareAtPrice.amount) : 79.9;
 
-  const bundlePrices: Record<1 | 2 | 3, { total: number; save: number; label: string }> = {
-    1: { total: price, save: 0, label: "Buy 1" },
-    2: { total: price * 2 - 10, save: 30, label: "Buy 2" },
-    3: { total: price * 3 - 20, save: 50, label: "Buy 3, Get 1 FREE" },
+  // Bundles per design mockup: Buy 1 = $39.95, Buy 2 = $69.90 (save 56%), Buy 3 = $126.95 (save 60%)
+  const bundlePrices: Record<1 | 2 | 3, { total: number; was: number; savePct: number; label: string; sub: string }> = {
+    1: { total: 39.95, was: 79.90, savePct: 0,  label: "Buy 1",            sub: "One sleeve" },
+    2: { total: 69.90, was: 159.80, savePct: 56, label: "Buy 2",            sub: "Both knees covered · Free Shipping" },
+    3: { total: 126.95, was: 319.60, savePct: 60, label: "Buy 3, Get 1 FREE", sub: "Best value · Free Shipping" },
   };
 
   const handleAdd = async () => {
@@ -119,11 +116,11 @@ function ProductPage() {
           {/* Info */}
           <div>
             <span className="inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent-foreground">50% OFF Today Only</span>
-            <h1 className="font-display mt-3 text-4xl md:text-5xl">{product.title}</h1>
+            <h1 className="font-display mt-3 text-4xl md:text-5xl">FLEXLOCK SLEEVE</h1>
             <div className="mt-2 flex items-center gap-2 text-sm">
-              <div className="flex">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-accent text-accent" />)}</div>
+              <div className="flex">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />)}</div>
               <span className="font-bold">4.9</span>
-              <span className="text-muted-foreground">(2,438 verified reviews)</span>
+              <span className="text-muted-foreground">(3,500+ verified reviews)</span>
             </div>
             <div className="mt-4 flex items-baseline gap-3">
               <span className="text-3xl font-bold text-accent">${price.toFixed(2)}</span>
@@ -158,8 +155,12 @@ function ProductPage() {
             </div>
 
             {/* Bundles */}
-            <div className="mt-6">
-              <div className="mb-2 inline-flex rounded-full bg-accent px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent-foreground">50% OFF Today Only</div>
+            <div className="mt-6 rounded-2xl border-2 border-foreground p-4">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="h-px flex-1 bg-foreground" />
+                <span className="text-[11px] font-bold uppercase tracking-wider text-accent">50% OFF Today Only</span>
+                <div className="h-px flex-1 bg-foreground" />
+              </div>
               <div className="space-y-2">
                 {([1, 2, 3] as const).map((b) => {
                   const bp = bundlePrices[b];
@@ -168,22 +169,25 @@ function ProductPage() {
                     <button
                       key={b}
                       onClick={() => setBundle(b)}
-                      className={`relative flex w-full items-center justify-between rounded-xl border-2 p-4 text-left ${bundle === b ? "border-primary" : "border-border"} ${isMost ? "bg-accent/5" : ""}`}
+                      className={`relative flex w-full items-center justify-between rounded-xl border-2 p-4 text-left transition ${bundle === b ? (isMost ? "border-accent" : "border-foreground") : "border-border"} ${isMost ? "bg-accent/10" : ""}`}
                     >
                       <div className="flex items-center gap-3">
-                        <div className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${bundle === b ? "border-primary" : "border-border"}`}>
-                          {bundle === b && <div className="h-2.5 w-2.5 rounded-full bg-primary" />}
+                        <div className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${bundle === b ? "border-foreground" : "border-border"}`}>
+                          {bundle === b && <div className="h-2.5 w-2.5 rounded-full bg-foreground" />}
                         </div>
                         <div>
-                          <div className="font-bold">{bp.label}</div>
-                          <div className="text-xs text-muted-foreground">{b === 1 ? "One-time" : b === 2 ? "Most popular · Free shipping" : "Best value · Free shipping"}</div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold">{bp.label}</span>
+                            {isMost && <span className="rounded bg-accent px-2 py-0.5 text-[9px] font-bold uppercase text-accent-foreground">Most Popular</span>}
+                          </div>
+                          <div className="mt-0.5 text-xs text-muted-foreground">{bp.sub}</div>
                         </div>
                       </div>
                       <div className="text-right">
                         <div className="font-bold">${bp.total.toFixed(2)}</div>
-                        {bp.save > 0 && <div className="text-[10px] font-bold text-accent">SAVE ${bp.save}</div>}
+                        <div className="text-xs text-muted-foreground line-through">${bp.was.toFixed(2)}</div>
+                        {bp.savePct > 0 && <div className="mt-1 inline-block rounded bg-accent px-1.5 py-0.5 text-[9px] font-bold text-accent-foreground">Save {bp.savePct}%</div>}
                       </div>
-                      {isMost && <span className="absolute -top-2 left-6 rounded-full bg-accent px-2 py-0.5 text-[9px] font-bold uppercase text-accent-foreground">Most popular</span>}
                     </button>
                   );
                 })}
@@ -222,7 +226,11 @@ function ProductPage() {
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.25em] text-muted-foreground">The difference</p>
-            <h2 className="font-display mt-3 text-5xl">FROM <span className="underline-accent">PAIN</span><br />TO FREE.</h2>
+            <h2 className="font-display mt-3 text-5xl leading-[1.15]">
+              FROM <span className="underline-accent">PAIN</span>
+              <br />
+              <span className="mt-2 inline-block">TO FREE.</span>
+            </h2>
             <div className="mt-6 space-y-4">
               <div className="rounded-xl border border-border p-5">
                 <p className="text-xs font-bold text-muted-foreground">01 — Before FlexLock</p>
@@ -241,15 +249,15 @@ function ProductPage() {
       {/* Stats panel */}
       <section className="bg-primary py-16 text-primary-foreground">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 md:grid-cols-2 md:items-center">
-          <div className="space-y-8">
+          <div className="space-y-8 text-center md:text-left">
             {[
               ["94%", "felt immediate knee stability when they first put it on"],
               ["87%", "said pain was reduced during movement within one week"],
               ["96%", "stayed active longer without pain compared to before"],
             ].map(([n, d]) => (
-              <div key={n}>
+              <div key={n} className="mx-auto md:mx-0 md:max-w-md">
                 <div className="font-display text-5xl">{n}</div>
-                <p className="mt-2 max-w-sm text-sm text-primary-foreground/60">{d}</p>
+                <p className="mt-2 text-sm text-primary-foreground/70">{d}</p>
               </div>
             ))}
           </div>
@@ -269,9 +277,22 @@ function ProductPage() {
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-muted-foreground">Verified owners</p>
           <h2 className="font-display mt-3 text-5xl">CUSTOMERS <span className="underline-accent">LOVE IT</span></h2>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {[kneeInCar, kneeInHand, kneeGym].map((src) => (
-              <div key={src} className="overflow-hidden rounded-2xl bg-muted">
-                <img src={src} alt="Customer photo of FlexLock Sleeve" className="aspect-[4/5] w-full object-cover" />
+            {[
+              { img: kneeInCar, quote: "After years of knee pain, I can finally hike again without stopping every 5 minutes. Total game changer.", rating: 5.0 },
+              { img: kneeInHand, quote: "I'm a nurse on my feet 12 hours a day. This is the only brace that lasts the full shift without slipping.", rating: 5.0 },
+              { img: kneeGym, quote: "Started cycling again after 8 months off. The dial compression is unlike anything I've tried before.", rating: 4.9 },
+            ].map((t) => (
+              <div key={t.quote} className="overflow-hidden rounded-2xl bg-muted text-left">
+                <div className="p-5">
+                  <div className="flex items-center gap-2">
+                    <div className="flex text-yellow-400">
+                      {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-3.5 w-3.5 fill-yellow-400" />)}
+                    </div>
+                    <span className="text-xs font-bold">{t.rating.toFixed(1)}</span>
+                  </div>
+                  <p className="mt-2 text-sm text-foreground/80">"{t.quote}"</p>
+                </div>
+                <img src={t.img} alt="Customer photo of FlexLock Sleeve" className="aspect-[4/5] w-full object-cover" />
               </div>
             ))}
           </div>
@@ -301,9 +322,9 @@ function ProductPage() {
               ["How fast is shipping?", "Orders ship within 24 hours. Delivery typically takes 3–5 business days in the US, 7–14 internationally."],
               ["How do I get in contact?", <span key="c">Visit our <Link to="/contact" className="underline">Contact page</Link> — we respond within 24–48 hours.</span>],
             ].map(([q, a], i) => (
-              <AccordionItem key={i} value={`item-${i}`} className="rounded-xl border border-border px-5">
-                <AccordionTrigger className="text-left text-sm font-bold hover:no-underline">{q as string}</AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground">{a}</AccordionContent>
+              <AccordionItem key={i} value={`item-${i}`} className="rounded-xl border border-border bg-background px-5">
+                <AccordionTrigger className="text-left text-base font-bold text-foreground hover:no-underline">{q as string}</AccordionTrigger>
+                <AccordionContent className="text-sm text-foreground/75">{a}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
