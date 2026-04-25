@@ -194,7 +194,7 @@ function ProductPage() {
               </div>
             </div>
 
-            <Button onClick={handleAdd} disabled={cartLoading} className="mt-5 h-14 w-full rounded-full text-base font-bold">
+            <Button onClick={handleAdd} disabled={cartLoading} className="mt-4 h-14 w-full rounded-full text-base font-bold">
               {cartLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : `Add to Cart — $${bundlePrices[bundle].total.toFixed(2)}`}
             </Button>
 
