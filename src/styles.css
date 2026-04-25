@@ -177,13 +177,24 @@
   }
   .marquee-track {
     display: flex;
-    gap: 3rem;
+    gap: 4rem;
     animation: marquee 30s linear infinite;
-    padding-right: 3rem;
+    padding-right: 4rem;
   }
   @keyframes marquee {
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
+  }
+
+  /* Diagonal stripe progress for cart free-shipping bar */
+  .stripe-bg {
+    background-image: repeating-linear-gradient(
+      45deg,
+      var(--foreground) 0,
+      var(--foreground) 6px,
+      transparent 6px,
+      transparent 12px
+    );
   }
 }
 
