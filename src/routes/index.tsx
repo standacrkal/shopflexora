@@ -2,7 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Star, Truck, ShieldCheck, Headphones } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import heroImg from "@/assets/hero-runner.jpg";
+import heroImg from "@/assets/hero-runner.png";
+import kneeInHand from "@/assets/knee-in-hand.png";
+import kneeInCar from "@/assets/knee-in-car.png";
+import kneeGym from "@/assets/knee-gym.jpg";
 import { storefrontApiRequest, PRODUCT_BY_HANDLE_QUERY } from "@/lib/shopify";
 
 export const Route = createFileRoute("/")({
@@ -137,6 +140,30 @@ function HomePage() {
       {/* CTA banner */}
       <section className="bg-background py-16">
         <div className="mx-auto max-w-7xl px-6">
+          {/* Customer testimonials section */}
+          <div className="mb-16 text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-muted-foreground">What customers say</p>
+            <h2 className="font-display mt-3 text-4xl md:text-5xl">TRUSTED BY OUR CUSTOMERS.</h2>
+            <div className="mt-10 grid gap-5 md:grid-cols-3">
+              {[
+                { img: kneeInHand, quote: "Finally something that supports my knee without feeling bulky. I can walk all day with zero discomfort.", name: "Jason S., Miami" },
+                { img: kneeInCar, quote: "I use it at the gym and during runs, and the difference is immediate. My knee feels stable and strong again.", name: "Jessica H., Seattle" },
+                { img: kneeGym, quote: "I was skeptical at first, but after a few days, I noticed way less pain going up stairs. Worth every dollar.", name: "Chris E., Denver" },
+              ].map((t) => (
+                <div key={t.name} className="rounded-2xl bg-muted p-6 text-left">
+                  <div className="mx-auto h-20 w-20 overflow-hidden rounded-full bg-background">
+                    <img src={t.img} alt="" className="h-full w-full object-cover" />
+                  </div>
+                  <div className="mt-3 flex justify-center text-accent">
+                    {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
+                  </div>
+                  <p className="mt-3 text-center text-sm text-muted-foreground">"{t.quote}"</p>
+                  <p className="mt-3 text-center text-xs font-bold">— {t.name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="flex flex-col items-start justify-between gap-6 rounded-2xl bg-muted p-10 md:flex-row md:items-center">
             <h3 className="font-display text-3xl md:text-4xl">YOUR KNEES HAVE WAITED<br />LONG ENOUGH.</h3>
             <div className="text-right">
