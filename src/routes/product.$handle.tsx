@@ -12,7 +12,6 @@ import sizeChartImg from "@/assets/size-chart.png";
 import kneeExploded from "@/assets/knee-exploded.jpg";
 import kneePair from "@/assets/knee-pair.jpg";
 import kneeFeaturesBlack from "@/assets/knee-features-black.png";
-import kneeFeaturesWhite from "@/assets/knee-features-white.png";
 import kneeInHand from "@/assets/knee-in-hand.png";
 import kneeInCar from "@/assets/knee-in-car.png";
 import kneeGym from "@/assets/knee-gym.jpg";
