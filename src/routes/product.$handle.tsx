@@ -1,13 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { Star, Truck, ShieldCheck, Headphones, Loader2, ChevronDown } from "lucide-react";
+import { Star, Truck, ShieldCheck, Headphones, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { storefrontApiRequest, PRODUCT_BY_HANDLE_QUERY } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
-import beforeImg from "@/assets/before-pain.jpg";
-import afterImg from "@/assets/after-relief.jpg";
+import beforeAfterImg from "@/assets/before-after.png";
+import sizeChartImg from "@/assets/size-chart.png";
+import kneeExploded from "@/assets/knee-exploded.jpg";
+import kneePair from "@/assets/knee-pair.jpg";
+import kneeFeaturesBlack from "@/assets/knee-features-black.png";
+import kneeInHand from "@/assets/knee-in-hand.png";
+import kneeInCar from "@/assets/knee-in-car.png";
+import kneeGym from "@/assets/knee-gym.jpg";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/product/$handle")({
@@ -37,10 +44,18 @@ function ProductPage() {
   const [color, setColor] = useState<string>("");
   const [bundle, setBundle] = useState<1 | 2 | 3>(1);
   const [activeImg, setActiveImg] = useState(0);
+  const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
 
   const sizes = product?.options?.find((o: { name: string }) => o.name === "Size")?.values || [];
   const colors = product?.options?.find((o: { name: string }) => o.name === "Color")?.values || [];
-  const images: { url: string; altText: string | null }[] = product?.images?.edges?.map((e: { node: { url: string; altText: string | null } }) => e.node) || [];
+  // Use the user-supplied product images for the gallery (matches design mockup)
+  const galleryImages = [
+    { url: kneeExploded, altText: "FlexLock Sleeve — exploded view" },
+    { url: kneePair, altText: "FlexLock Sleeve — black and white" },
+    { url: kneeFeaturesBlack, altText: "FlexLock Sleeve — features" },
+    { url: kneeInHand, altText: "FlexLock Sleeve in hand" },
+    { url: kneeInCar, altText: "FlexLock Sleeve detail" },
+  ];
 
   const variant = useMemo(() => {
     if (!product) return null;
@@ -90,10 +105,10 @@ function ProductPage() {
           {/* Gallery */}
           <div>
             <div className="aspect-square overflow-hidden rounded-2xl bg-muted">
-              {images[activeImg] && <img src={images[activeImg].url} alt={product.title} className="h-full w-full object-contain" />}
+              <img src={galleryImages[activeImg].url} alt={galleryImages[activeImg].altText ?? product.title} className="h-full w-full object-contain" />
             </div>
             <div className="mt-4 flex gap-3 overflow-x-auto">
-              {images.map((img, i) => (
+              {galleryImages.map((img, i) => (
                 <button key={img.url} onClick={() => setActiveImg(i)} className={`h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border-2 ${i === activeImg ? "border-primary" : "border-transparent"}`}>
                   <img src={img.url} alt="" className="h-full w-full object-cover" />
                 </button>
@@ -123,7 +138,13 @@ function ProductPage() {
                   <button key={s} onClick={() => setSize(s)} className={`h-10 min-w-[3rem] rounded-full border-2 px-4 text-sm font-bold ${size === s ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background"}`}>{s}</button>
                 ))}
               </div>
-              <p className="mt-2 text-xs text-muted-foreground">Size guide — measures 5.5–6.7" knee circumference.</p>
+              <button
+                type="button"
+                onClick={() => setSizeGuideOpen(true)}
+                className="mt-2 text-xs text-muted-foreground underline underline-offset-2 hover:text-foreground"
+              >
+                Size guide — measure 5.5"/14cm above the kneecap.
+              </button>
             </div>
 
             {/* Color */}
@@ -196,15 +217,8 @@ function ProductPage() {
       {/* Before/After */}
       <section className="bg-background py-16">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-2 lg:items-center">
-          <div className="grid grid-cols-2 gap-3">
-            <div className="relative overflow-hidden rounded-2xl">
-              <img src={beforeImg} alt="Before" className="aspect-[3/4] w-full object-cover" />
-              <span className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-background px-4 py-1 text-xs font-bold">before</span>
-            </div>
-            <div className="relative overflow-hidden rounded-2xl">
-              <img src={afterImg} alt="After" className="aspect-[3/4] w-full object-cover" />
-              <span className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-background px-4 py-1 text-xs font-bold">after</span>
-            </div>
+          <div className="overflow-hidden rounded-2xl">
+            <img src={beforeAfterImg} alt="Before and after using FlexLock Sleeve" className="w-full object-cover" />
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.25em] text-muted-foreground">The difference</p>
@@ -255,9 +269,9 @@ function ProductPage() {
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-muted-foreground">Verified owners</p>
           <h2 className="font-display mt-3 text-5xl">CUSTOMERS <span className="underline-accent">LOVE IT</span></h2>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {images.slice(0, 3).map((img) => (
-              <div key={img.url} className="overflow-hidden rounded-2xl bg-muted">
-                <img src={img.url} alt="" className="aspect-[4/5] w-full object-cover" />
+            {[kneeInCar, kneeInHand, kneeGym].map((src) => (
+              <div key={src} className="overflow-hidden rounded-2xl bg-muted">
+                <img src={src} alt="Customer photo of FlexLock Sleeve" className="aspect-[4/5] w-full object-cover" />
               </div>
             ))}
           </div>
@@ -295,6 +309,14 @@ function ProductPage() {
           </Accordion>
         </div>
       </section>
+
+      {/* Size Guide Modal */}
+      <Dialog open={sizeGuideOpen} onOpenChange={setSizeGuideOpen}>
+        <DialogContent className="max-w-lg p-0 overflow-hidden bg-background">
+          <DialogTitle className="sr-only">How to Measure</DialogTitle>
+          <img src={sizeChartImg} alt="How to measure — size chart" className="h-auto w-full" />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

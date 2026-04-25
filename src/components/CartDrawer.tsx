@@ -27,13 +27,18 @@ export function CartDrawer() {
           {items.length > 0 && (
             <div className="mt-3">
               {remaining > 0 ? (
-                <p className="text-sm font-semibold">Spend <span className="text-accent">${remaining.toFixed(2)}</span> more to get FREE shipping!</p>
+                <p className="text-center text-sm font-bold">Spend ${remaining.toFixed(2)} more to get <span className="text-accent">FREE shipping!</span></p>
               ) : (
-                <p className="text-sm font-semibold text-accent">You unlocked free shipping! 🎉</p>
+                <p className="text-center text-sm font-bold text-accent">You unlocked free shipping! 🎉</p>
               )}
-              <div className="relative mt-2 h-2 overflow-hidden rounded-full bg-muted">
-                <div className="absolute inset-y-0 left-0 bg-primary transition-all" style={{ width: `${progress}%` }} />
-                <Truck className="absolute -top-1 h-4 w-4 text-primary transition-all" style={{ left: `calc(${progress}% - 8px)` }} />
+              <div className="relative mt-3 h-3 rounded-full bg-muted">
+                <div className="absolute inset-y-0 left-0 stripe-bg rounded-full transition-all" style={{ width: `${progress}%` }} />
+                <div
+                  className="absolute -top-1.5 flex h-6 w-6 items-center justify-center rounded-full border-2 border-foreground bg-background transition-all"
+                  style={{ left: `calc(${progress}% - 12px)` }}
+                >
+                  <Truck className="h-3 w-3" />
+                </div>
               </div>
             </div>
           )}
@@ -89,6 +94,13 @@ export function CartDrawer() {
             <Button onClick={checkout} disabled={isLoading || isSyncing} className="h-14 w-full rounded-full text-base font-bold">
               {isLoading || isSyncing ? <Loader2 className="h-5 w-5 animate-spin" /> : "Check out"}
             </Button>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+              {["VISA", "AMEX", "Pay", "G Pay", "Disc", "PayPal", "Shop", "MC"].map((p) => (
+                <span key={p} className="flex h-6 min-w-[2.5rem] items-center justify-center rounded border border-border bg-background px-1.5 text-[9px] font-bold text-muted-foreground">
+                  {p}
+                </span>
+              ))}
+            </div>
           </div>
         )}
       </SheetContent>
