@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
-import { Star, Truck, ShieldCheck, Headphones, Loader2, Check } from "lucide-react";
+import { Star, Truck, ShieldCheck, Headphones, Loader2, Check, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -174,16 +174,19 @@ function ProductPage() {
 
             {/* Countdown + Bundles */}
             <div className="mt-6">
-              <div className="mb-3 flex flex-col items-center gap-2 rounded-xl bg-[#fde2e2] px-4 py-3 text-[#7a1414]">
-                <div className="flex items-center gap-2 font-mono text-2xl font-bold tabular-nums tracking-widest">
-                  <span className="rounded bg-white/70 px-2 py-1 shadow-sm">{mm}</span>
-                  <span>:</span>
-                  <span className="rounded bg-white/70 px-2 py-1 shadow-sm">{ss}</span>
+              <div className="relative mb-3 flex flex-col items-center gap-2 rounded-xl border-2 border-border bg-background px-4 py-4">
+                <span className="absolute -right-2 -top-2 inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent-foreground shadow-md">
+                  <Flame className="h-3 w-3 fill-current" /> Special Offer
+                </span>
+                <div className="flex items-center gap-2 font-mono text-3xl font-bold tabular-nums tracking-widest text-foreground">
+                  <span className="rounded bg-muted px-3 py-1.5 shadow-inner">{mm}</span>
+                  <span className="text-foreground/60">:</span>
+                  <span className="rounded bg-muted px-3 py-1.5 shadow-inner">{ss}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="h-px w-8 bg-[#7a1414]/30" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider">50% OFF Today Only</span>
-                  <div className="h-px w-8 bg-[#7a1414]/30" />
+                  <div className="h-px w-8 bg-foreground/20" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-accent">50% OFF Today Only</span>
+                  <div className="h-px w-8 bg-foreground/20" />
                 </div>
               </div>
               <div className="space-y-2">
@@ -194,22 +197,24 @@ function ProductPage() {
                     <button
                       key={b}
                       onClick={() => setBundle(b)}
-                      className={`relative flex w-full items-center justify-between rounded-xl border-2 p-4 text-left transition ${bundle === b ? (isMost ? "border-accent" : "border-foreground") : "border-border"} ${isMost ? "bg-accent/10" : ""}`}
+                      className={`relative flex w-full items-center justify-between rounded-xl border-2 bg-background text-left transition ${isMost ? "p-5" : "p-4"} ${bundle === b ? (isMost ? "border-accent shadow-md" : "border-foreground") : "border-border"}`}
                     >
+                      {isMost && (
+                        <span className="absolute -right-2 -top-2 inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent-foreground shadow-md">
+                          <Flame className="h-3 w-3 fill-current" /> Most Popular
+                        </span>
+                      )}
                       <div className="flex items-center gap-3">
                         <div className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${bundle === b ? "border-foreground" : "border-border"}`}>
                           {bundle === b && <div className="h-2.5 w-2.5 rounded-full bg-foreground" />}
                         </div>
                         <div>
-                          <div className="flex items-center gap-2">
-                            <span className="font-bold">{bp.label}</span>
-                            {isMost && <span className="rounded bg-accent px-2 py-0.5 text-[9px] font-bold uppercase text-accent-foreground">Most Popular</span>}
-                          </div>
+                          <span className={`font-bold ${isMost ? "text-lg" : ""}`}>{bp.label}</span>
                           <div className="mt-0.5 text-xs text-muted-foreground">{bp.sub}</div>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="font-bold">${bp.total.toFixed(2)}</div>
+                        <div className={`font-bold ${isMost ? "text-lg" : ""}`}>${bp.total.toFixed(2)}</div>
                         <div className="text-xs text-muted-foreground line-through">${bp.was.toFixed(2)}</div>
                         {bp.savePct > 0 && <div className="mt-1 inline-block rounded bg-accent px-1.5 py-0.5 text-[9px] font-bold text-accent-foreground">Save {bp.savePct}%</div>}
                       </div>
