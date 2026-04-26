@@ -49,12 +49,22 @@ function ProductPage() {
   const [activeImg, setActiveImg] = useState(0);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
 
-  // Countdown timer (resets to 15 minutes on mount)
+  // Countdown timer — persists across navigation via localStorage (15 min from first visit)
   const [secondsLeft, setSecondsLeft] = useState(15 * 60);
   useEffect(() => {
-    const id = setInterval(() => {
-      setSecondsLeft((s) => (s > 0 ? s - 1 : 0));
-    }, 1000);
+    const KEY = "flexlock_timer_end";
+    const now = Date.now();
+    let endAt = Number(localStorage.getItem(KEY) || 0);
+    if (!endAt || endAt < now) {
+      endAt = now + 15 * 60 * 1000;
+      localStorage.setItem(KEY, String(endAt));
+    }
+    const tick = () => {
+      const remaining = Math.max(0, Math.floor((endAt - Date.now()) / 1000));
+      setSecondsLeft(remaining);
+    };
+    tick();
+    const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, []);
   const mm = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
