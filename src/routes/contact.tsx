@@ -21,6 +21,7 @@ export const Route = createFileRoute("/contact")({
 function ContactPage() {
   const [submitting, setSubmitting] = useState(false);
   const [subject, setSubject] = useState("Order question");
+  const [emailError, setEmailError] = useState("");
   return (
     <section className="bg-background py-20">
       <div className="mx-auto max-w-3xl px-6">
@@ -32,11 +33,18 @@ function ContactPage() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            const form = e.target as HTMLFormElement;
+            const emailValue = (form.elements.namedItem("email") as HTMLInputElement)?.value.trim();
+            if (!emailValue) {
+              setEmailError("Please enter your email");
+              return;
+            }
+            setEmailError("");
             setSubmitting(true);
             setTimeout(() => {
               setSubmitting(false);
               toast.success("Thanks! We'll be in touch shortly.");
-              (e.target as HTMLFormElement).reset();
+              form.reset();
               setSubject("Order question");
             }, 600);
           }}
@@ -44,7 +52,18 @@ function ContactPage() {
         >
           <div className="grid gap-4 sm:grid-cols-2">
             <Input className="h-14 rounded-xl" placeholder="Name" name="name" />
-            <Input className="h-14 rounded-xl" placeholder="Email *" type="email" required name="email" />
+            <div>
+              <Input
+                className={`h-14 rounded-xl ${emailError ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                placeholder="Email *"
+                type="email"
+                name="email"
+                onChange={() => emailError && setEmailError("")}
+              />
+              {emailError && (
+                <p className="mt-1 pl-2 text-xs text-destructive">{emailError}</p>
+              )}
+            </div>
           </div>
           <Input className="h-14 rounded-xl" placeholder="Phone number" name="phone" />
           <Select value={subject} onValueChange={setSubject}>
