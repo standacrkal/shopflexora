@@ -174,19 +174,19 @@ function ProductPage() {
 
             {/* Countdown + Bundles */}
             <div className="mt-6">
-              <div className="relative mb-3 flex flex-col items-center gap-2 rounded-xl border-2 border-border bg-background px-4 py-4">
+              <div className="relative mb-3 flex flex-col items-center gap-2 rounded-xl border-2 border-[#ef4444] bg-[#fff5f5] px-4 py-4">
                 <span className="absolute -right-2 -top-2 inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent-foreground shadow-md">
                   <Flame className="h-3 w-3 fill-current" /> Special Offer
                 </span>
-                <div className="flex items-center gap-2 font-mono text-3xl font-bold tabular-nums tracking-widest text-foreground">
-                  <span className="rounded bg-muted px-3 py-1.5 shadow-inner">{mm}</span>
-                  <span className="text-foreground/60">:</span>
-                  <span className="rounded bg-muted px-3 py-1.5 shadow-inner">{ss}</span>
+                <div className="flex items-center gap-2 font-mono text-3xl font-bold tabular-nums tracking-widest text-[#7a1414]">
+                  <span className="rounded bg-white px-3 py-1.5 shadow-inner">{mm}</span>
+                  <span className="text-[#7a1414]/60">:</span>
+                  <span className="rounded bg-white px-3 py-1.5 shadow-inner">{ss}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="h-px w-8 bg-foreground/20" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-accent">50% OFF Today Only</span>
-                  <div className="h-px w-8 bg-foreground/20" />
+                  <div className="h-px w-8 bg-[#7a1414]/20" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#7a1414]">50% OFF Today Only</span>
+                  <div className="h-px w-8 bg-[#7a1414]/20" />
                 </div>
               </div>
               <div className="space-y-2">
@@ -356,12 +356,12 @@ function ProductPage() {
           <h2 className="font-display text-center text-5xl">FAQ</h2>
           <Accordion type="single" collapsible className="mt-8 space-y-3">
             {[
-              ["Can I wear it all day?", "Yes — the breathable knit is designed for all-day wear without irritation. Most customers wear it 8+ hours comfortably."],
-              ["Will it fit my knee size?", "Sizes M–XXL fit knee circumferences from 13\" to 21\". Check the size chart for precise measurements."],
-              ["Is it good for sports?", "Absolutely. The FlexLock provides patella stability for running, lifting, hiking, and field sports."],
-              ["Does it help with existing knee pain?", "Many customers report significant relief, but always consult a medical professional for diagnosed conditions."],
-              ["How fast is shipping?", "Orders ship within 24 hours. Delivery typically takes 3–5 business days in the US, 7–14 internationally."],
-              ["How do I get in contact?", <span key="c">Visit our <Link to="/contact" className="underline">Contact page</Link> — we respond within 24–48 hours.</span>],
+              ["Can I wear it all day?", <><strong>Yes</strong>. The breathable material is designed for <strong>extended use</strong> without overheating or discomfort. Most customers wear it <strong>during daily activities</strong> and workouts comfortably.</>],
+              ["Will it fit my knee size?", <>The sleeve is <strong>flexible and adapts</strong> to most leg shapes. Combined with the <strong>adjustable dial</strong>, you get a personalized fit every time.</>],
+              ["Is it good for sports?", <><strong>Absolutely</strong>. It provides stability without <strong>restricting movement</strong>, making it ideal for running, gym workouts, cycling, and more.</>],
+              ["Does it help with existing knee pain?", <><strong>Yes</strong>. The compression and <strong>patella support</strong> reduce strain and improve alignment, which helps <strong>relieve common</strong> knee discomfort.</>],
+              ["How fast is shipping?", "We process orders within 24-72 hours and deliver them within 6-15 days depending on your location, with tracked shipment included for your convenience."],
+              ["How do I get in contact?", <>You can message support by clicking the "<Link to="/contact" className="underline"><strong>Contact Us</strong></Link>" section on our store.</>],
             ].map(([q, a], i) => (
               <AccordionItem key={i} value={`item-${i}`} className="rounded-xl border border-border bg-background px-5">
                 <AccordionTrigger className="text-left text-base font-bold text-foreground hover:no-underline">{q as string}</AccordionTrigger>
