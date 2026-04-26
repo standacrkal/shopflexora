@@ -12,7 +12,7 @@ export function Header() {
         <nav className="hidden items-center gap-2 md:flex">
           {[
             { to: "/", label: "Home" },
-            { to: "/about", label: "About" },
+            { to: "/about", label: "About Us" },
             { to: "/contact", label: "Contact" },
           ].map((l) => (
             <Link
