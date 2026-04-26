@@ -18,6 +18,8 @@ import productPair from "@/assets/product-pair.jpg";
 import customerKneeInCar from "@/assets/customer-knee-in-car.png";
 import customerKneeInHand from "@/assets/customer-knee-in-hand.png";
 import customerKneeGym from "@/assets/customer-knee-gym.jpg";
+import productHandDetail from "@/assets/product-hand-detail.jpg";
+import productLegsPair from "@/assets/product-legs-pair.jpg";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/product/$handle")({
@@ -316,9 +318,12 @@ function ProductPage() {
             ))}
           </div>
           <div className="grid grid-cols-2 gap-4">
-            {[0, 1].map((i) => (
-              <div key={i} className="flex aspect-[9/16] items-center justify-center rounded-2xl bg-primary-foreground/10 text-primary-foreground/40">
-                <span className="text-2xl font-bold tracking-widest">VIDEO</span>
+            {[
+              { src: productHandDetail, alt: "FlexLock Sleeve held in hand — detail view" },
+              { src: productLegsPair, alt: "FlexLock Sleeve worn on both knees" },
+            ].map((m) => (
+              <div key={m.alt} className="overflow-hidden rounded-2xl bg-primary-foreground/10">
+                <img src={m.src} alt={m.alt} className="h-full w-full object-cover aspect-[9/16]" loading="lazy" />
               </div>
             ))}
           </div>
