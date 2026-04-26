@@ -330,7 +330,7 @@ function ProductPage() {
             {[
               { img: customerKneeInCar, quote: "After years of knee pain, I can finally hike again without stopping every 5 minutes. Total game changer.", rating: 5.0 },
               { img: customerKneeInHand, quote: "I'm a nurse on my feet 12 hours a day. This is the only brace that lasts the full shift without slipping.", rating: 5.0 },
-              { img: customerKneeGym, quote: "Started cycling again after 8 months off. The dial compression is unlike anything I've tried before.", rating: 4.9 },
+              { img: customerKneeGym, quote: "Started cycling again after 8 months off. The dial compression is unlike anything I've tried before.", rating: 5.0 },
             ].map((t) => (
               <div key={t.quote} className="overflow-hidden rounded-2xl bg-muted text-left">
                 <div className="p-5">
