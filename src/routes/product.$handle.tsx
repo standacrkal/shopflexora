@@ -274,7 +274,14 @@ function ProductPage() {
                 <p className="mt-1 text-sm">Real support and alignment with confidence. Move more easily — so you can live more.</p>
               </div>
             </div>
-            <Button onClick={handleAdd} className="mt-6 h-12 rounded-full px-8 font-bold">Get Yours — $39.95</Button>
+            <Button
+              onClick={() => {
+                document.getElementById("product-top")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="mt-6 h-12 rounded-full px-8 font-bold"
+            >
+              Get Yours — $39.95
+            </Button>
           </div>
         </div>
       </section>
