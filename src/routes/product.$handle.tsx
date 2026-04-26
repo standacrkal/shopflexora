@@ -15,6 +15,9 @@ import productOnLeg from "@/assets/product-on-leg.png";
 import productFeatures from "@/assets/product-features.png";
 import productBike from "@/assets/product-bike.jpg";
 import productPair from "@/assets/product-pair.jpg";
+import customerKneeInCar from "@/assets/customer-knee-in-car.png";
+import customerKneeInHand from "@/assets/customer-knee-in-hand.png";
+import customerKneeGym from "@/assets/customer-knee-gym.jpg";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/product/$handle")({
@@ -85,7 +88,7 @@ function ProductPage() {
   // Bundles per design mockup: Buy 1 = $39.95, Buy 2 = $69.90 (save 56%), Buy 3 = $126.95 (save 60%)
   const bundlePrices: Record<1 | 2 | 3, { total: number; was: number; savePct: number; label: string; sub: string }> = {
     1: { total: 39.95, was: 79.90, savePct: 0,  label: "Buy 1",            sub: "One sleeve" },
-    2: { total: 69.90, was: 159.80, savePct: 56, label: "Buy 2",            sub: "Both knees covered · Free Shipping" },
+    2: { total: 69.95, was: 159.80, savePct: 56, label: "Buy 2",            sub: "Both knees covered · Free Shipping" },
     3: { total: 126.95, was: 319.60, savePct: 60, label: "Buy 3, Get 1 FREE", sub: "Best value · Free Shipping" },
   };
 
@@ -171,16 +174,16 @@ function ProductPage() {
 
             {/* Countdown + Bundles */}
             <div className="mt-6">
-              <div className="mb-3 flex flex-col items-center gap-2 rounded-xl bg-foreground px-4 py-3 text-background">
+              <div className="mb-3 flex flex-col items-center gap-2 rounded-xl bg-[#fde2e2] px-4 py-3 text-[#7a1414]">
                 <div className="flex items-center gap-2 font-mono text-2xl font-bold tabular-nums tracking-widest">
-                  <span className="rounded bg-background/10 px-2 py-1">{mm}</span>
+                  <span className="rounded bg-white/70 px-2 py-1 shadow-sm">{mm}</span>
                   <span>:</span>
-                  <span className="rounded bg-background/10 px-2 py-1">{ss}</span>
+                  <span className="rounded bg-white/70 px-2 py-1 shadow-sm">{ss}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="h-px w-8 bg-background/40" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-accent">50% OFF Today Only</span>
-                  <div className="h-px w-8 bg-background/40" />
+                  <div className="h-px w-8 bg-[#7a1414]/30" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider">50% OFF Today Only</span>
+                  <div className="h-px w-8 bg-[#7a1414]/30" />
                 </div>
               </div>
               <div className="space-y-2">
@@ -274,13 +277,6 @@ function ProductPage() {
       {/* Stats panel */}
       <section className="bg-primary py-16 text-primary-foreground">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 md:grid-cols-2 md:items-center">
-          <div className="grid grid-cols-2 gap-4">
-            {[0, 1].map((i) => (
-              <div key={i} className="flex aspect-[9/16] items-center justify-center rounded-2xl bg-primary-foreground/10 text-primary-foreground/40">
-                <span className="text-2xl font-bold tracking-widest">VIDEO</span>
-              </div>
-            ))}
-          </div>
           <div className="space-y-8 text-center md:text-left">
             {[
               ["94%", "felt immediate knee stability when they first put it on"],
@@ -290,6 +286,13 @@ function ProductPage() {
               <div key={n} className="mx-auto md:mx-0 md:max-w-md">
                 <div className="font-display text-5xl">{n}</div>
                 <p className="mt-2 text-sm text-primary-foreground/70">{d}</p>
+              </div>
+            ))}
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            {[0, 1].map((i) => (
+              <div key={i} className="flex aspect-[9/16] items-center justify-center rounded-2xl bg-primary-foreground/10 text-primary-foreground/40">
+                <span className="text-2xl font-bold tracking-widest">VIDEO</span>
               </div>
             ))}
           </div>
@@ -303,9 +306,9 @@ function ProductPage() {
           <h2 className="font-display mt-3 text-5xl">CUSTOMERS <span className="underline-accent">LOVE IT</span></h2>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {[
-              { img: productOnLeg, quote: "After years of knee pain, I can finally hike again without stopping every 5 minutes. Total game changer.", rating: 5.0 },
-              { img: productBike, quote: "I'm a nurse on my feet 12 hours a day. This is the only brace that lasts the full shift without slipping.", rating: 5.0 },
-              { img: productPair, quote: "Started cycling again after 8 months off. The dial compression is unlike anything I've tried before.", rating: 4.9 },
+              { img: customerKneeInCar, quote: "After years of knee pain, I can finally hike again without stopping every 5 minutes. Total game changer.", rating: 5.0 },
+              { img: customerKneeInHand, quote: "I'm a nurse on my feet 12 hours a day. This is the only brace that lasts the full shift without slipping.", rating: 5.0 },
+              { img: customerKneeGym, quote: "Started cycling again after 8 months off. The dial compression is unlike anything I've tried before.", rating: 4.9 },
             ].map((t) => (
               <div key={t.quote} className="overflow-hidden rounded-2xl bg-muted text-left">
                 <div className="p-5">
