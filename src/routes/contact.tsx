@@ -39,6 +39,11 @@ function ContactPage() {
               setEmailError("Please enter your email");
               return;
             }
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailValue)) {
+              setEmailError("Please enter a valid email");
+              return;
+            }
             setEmailError("");
             setSubmitting(true);
             setTimeout(() => {
