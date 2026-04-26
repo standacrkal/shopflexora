@@ -219,14 +219,18 @@ function ProductPage() {
                           {bundle === b && <div className="h-2.5 w-2.5 rounded-full bg-foreground" />}
                         </div>
                         <div>
-                          <span className={`font-bold ${isMost ? "text-lg" : ""}`}>{bp.label}</span>
+                          <div className="flex items-center gap-2">
+                            <span className={`font-bold ${isMost ? "text-lg" : ""}`}>{bp.label}</span>
+                            {bp.savePct > 0 && (
+                              <span className="rounded bg-accent px-1.5 py-0.5 text-[9px] font-bold text-accent-foreground">Save {bp.savePct}%</span>
+                            )}
+                          </div>
                           <div className="mt-0.5 text-xs text-muted-foreground">{bp.sub}</div>
                         </div>
                       </div>
                       <div className="text-right">
                         <div className={`font-bold ${isMost ? "text-lg" : ""}`}>${bp.total.toFixed(2)}</div>
                         <div className="text-xs text-muted-foreground line-through">${bp.was.toFixed(2)}</div>
-                        {bp.savePct > 0 && <div className="mt-1 inline-block rounded bg-accent px-1.5 py-0.5 text-[9px] font-bold text-accent-foreground">Save {bp.savePct}%</div>}
                       </div>
                     </button>
                   );
